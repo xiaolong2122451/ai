@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 	entry: {
-		index : './src/router/speech/index.js'
+		index: './src/router/speech/index.js'
 	},
 	output: {
 		filename: '[name].bundle.js',

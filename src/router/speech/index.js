@@ -7,6 +7,7 @@ import './index.css';
 //保存音频文件数据流
 let mediaRecorder = null; //音频对象
 let chunks = [];
+let ws = null; //webSocket
 
 class App extends React.Component {
 
@@ -19,8 +20,12 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		document.addEventListener('keydown', this.handleDown )
-		document.addEventListener('keyup', this.handleUp )
+		document.addEventListener('keydown', this.handleDown );
+		document.addEventListener('keyup', this.handleUp );
+
+		ws = new WebSocket('ws://localhost:8090');
+		ws.onmessage = this.handleMessage;
+
 	}
 
 	handleDown = (e) => {
@@ -36,11 +41,11 @@ class App extends React.Component {
 				return;
 		}
 	}
+
 	handleUp = () => {
 		this.setState({
 			beginAuto : false
 		},() => {
-			console.log( mediaRecorder )
 			mediaRecorder.stop();
 		})
 	}
@@ -79,9 +84,18 @@ class App extends React.Component {
 		this.setState({
 			audioSrc : audioURL
 		},() => {
+			ws.send('hello ws')
+			//ws.send( chunks );
+
 			chunks = [];
 		})
 
+	}
+
+	//ws接受
+	handleMessage( res ){
+		const results = JSON.parse( res.data );
+		console.log( results )
 	}
 
 	render() {
@@ -111,7 +125,6 @@ class App extends React.Component {
 					<p className={'tips'}>按下回车键说话</p>
 				</div>
 			</div>
-
 		)
 	}
 }
