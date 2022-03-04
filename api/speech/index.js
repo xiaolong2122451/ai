@@ -1,9 +1,14 @@
-
+const GET_Recognize = require('./components/recognize/index');
 
 module.exports = {
-	"短语音识别" : function(){
+	"短语音识别" : function( data ){
 		return new Promise( (resolve,reject) => {
-			resolve()
+			GET_Recognize( data ).then( res => {
+				resolve(res)
+			}).catch( error => {
+				console.log( error )
+			})
+
 		})
 	}
 }

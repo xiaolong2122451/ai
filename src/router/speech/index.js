@@ -57,7 +57,12 @@ class App extends React.Component {
 		},() => {
 
 			navigator.mediaDevices.getUserMedia({
-				audio : true
+				audio : {
+					channelCount: 1,
+					sampleRate: 16000,
+					sampleSize: 16,
+					volume: 1
+				}
 			}).then( stream => {
 
 				mediaRecorder = new MediaRecorder(stream);
@@ -78,16 +83,17 @@ class App extends React.Component {
 	//结束录音
 	handleRecordingStop = (e)=>{
 
-		var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+		var blob = new Blob(chunks, { 'type' : 'audio/wav' });
 		var audioURL = window.URL.createObjectURL(blob);
 
 		this.setState({
 			audioSrc : audioURL
 		},() => {
-			ws.send('hello ws')
-			//ws.send( chunks );
-
-			chunks = [];
+			blob.arrayBuffer().then( buffer  => {
+				console.log( new Uint8Array(buffer)  )
+				ws.send( new Uint8Array(buffer)  );
+				chunks = [];
+			})
 		})
 
 	}

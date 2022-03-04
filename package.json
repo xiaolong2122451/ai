@@ -26,6 +26,7 @@
     "@babel/runtime": "^7.17.2",
     "@babel/runtime-corejs2": "^7.17.2",
     "babel-loader": "^8.2.3",
+    "baidu-aip-sdk": "^4.15.8",
     "css-loader": "^6.6.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
